@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
     private ViewModel viewModel;
-    private Button btn;
+    private Button btn, btn2;
     private EditText ev;
     private TextView text;
     @Override
@@ -23,24 +23,36 @@ public class MainActivity extends AppCompatActivity {
         btn = findViewById(R.id.btn_saveViewModel);
         ev = findViewById(R.id.ev_text);
         text = findViewById(R.id.tv_text);
+        btn2 = findViewById(R.id.btn_initViewModel);
         viewModel = new ViewModelProvider(this).get(ViewModel.class);
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String t = String.valueOf(ev.getText());
-                //viewModel에 데이터 저장, 일단 저장하는 것 까지
                 viewModel.setUserInfo(t);
+                viewModel.getUserId().observe(MainActivity.this, s -> {
+                    Log.d("sucess", s);
+                    text.setText(s);
+                });
+
+
+
+            }
+        });
+        btn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                viewModel.initData();
                 viewModel.getUserId().observe(MainActivity.this, new Observer<String>() {
 
-                            @Override
-                            public void onChanged(String s) {
-                                Log.d("sucess", s);
-                            }
-                        });
+                    @Override
+                    public void onChanged(String s) {
+                        Log.d("sucess2", s);
+                        text.setText(s);
+                    }
+                });
 
-
-//                text.setText(viewModel.getUserId());
             }
         });
     }

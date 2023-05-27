@@ -9,7 +9,7 @@ public class ViewModel extends androidx.lifecycle.ViewModel {
     private MutableLiveData<String> userId;
 
     public ViewModel(){
-        userId = new MutableLiveData<>();
+        userId = new MutableLiveData<>("default");
     }
     public void setUserInfo(String id) {
         userId.setValue(id);
